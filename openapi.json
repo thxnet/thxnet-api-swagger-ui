@@ -1,0 +1,3736 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "THXNET. API",
+    "description": "Web3-as-a-Service API powered by THXNET.",
+    "version": "1.0.0-m1",
+    "contact": {
+      "name": "THXNET. API Support",
+      "email": "contact@thxlab.io"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.helpers.testnet.thxnet.org/rest/v1",
+      "description": "THXNET. Testnet"
+    },
+    {
+      "url": "https://api.helpers.mainnet.thxnet.org/rest/v1",
+      "description": "THXNET. Mainnet"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Transaction",
+      "description": "Operations about fetching transactions"
+    },
+    {
+      "name": "L1 Org",
+      "description": "Operations for Layer-1 organizations  \nCheck NFT Metadata Spec at: https://docs.google.com/spreadsheets/d/1y2TTQHOvqhNcPiyFB877_60Nj-PhwQwrNN3Y8CsSiSw/edit#gid=0  \nAny operation requested under this L1 context, will be automatically applied with owned leafchain info\n"
+    },
+    {
+      "name": "Batch",
+      "description": "Batched operations"
+    },
+    {
+      "name": "Me",
+      "description": "Operations for my assets (based on the THXNET. API Token used)"
+    },
+    {
+      "name": "ID-Wallet",
+      "description": "Operations for inspecting ID-Wallet"
+    },
+    {
+      "name": "FT",
+      "description": "Operations for Fungible Tokens (for both native and non-native one)"
+    },
+    {
+      "name": "NFT",
+      "description": "Operations for NFTs  \nCheck NFT Metadata Spec at: https://docs.google.com/spreadsheets/d/1y2TTQHOvqhNcPiyFB877_60Nj-PhwQwrNN3Y8CsSiSw/edit#gid=0\n"
+    },
+    {
+      "name": "NFT Claim",
+      "description": "Operations for NFT Claim, which is created by L1 Org"
+    },
+    {
+      "name": "NFT Sale",
+      "description": "Operations for NFT Sale, which can be created by NFT holders"
+    },
+    {
+      "name": "THXNET. API Token",
+      "description": "Operations for inspecting THXNET. API Token"
+    },
+    {
+      "name": "Bifrost",
+      "description": "Operations for performing Bifrost"
+    }
+  ],
+  "paths": {
+    "/tx/track/{bn_id}/{track_id}": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "operationId": "GetTxStatus",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Get Transaction Status by Track ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          },
+          {
+            "$ref": "#/components/parameters/TrackId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "finalized": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "tx_track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "is_finalized": true,
+                        "tx_id": "1939411-2",
+                        "block_number": 1939411,
+                        "explorer_url": "https://explorer.testnet.thxnet.org/testnet-lmt/extrinsic/1939411-2",
+                        "panel_url": "https://panel.testnet.thxnet.org/?rpc=wss%3A%2F%2Fnode.lmt.testnet.thxnet.org%2Farchive-002%2Fws#/explorer/query/1939411",
+                        "tx_hash": "0xc10d6b1a4837ab00460eb100a447724efab94b39bdbc170c1020933d4cb810c0"
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_finalized": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "tx_track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "is_finalized": false,
+                        "tx_id": "0-0",
+                        "block_number": 0,
+                        "explorer_url": "",
+                        "panel_url": ""
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; track_id does not exist"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/thxnet_api_token/refresh": {
+      "get": {
+        "tags": [
+          "THXNET. API Token"
+        ],
+        "operationId": "ThxnetApiTokenInfoRefresh",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Refresh my THXNET. API Token",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": "NEWLY_SIGNED_THXNET_API_TOKEN",
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/thxnet_api_token/info": {
+      "get": {
+        "tags": [
+          "THXNET. API Token"
+        ],
+        "operationId": "ThxnetApiTokenInfoGet",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Inspect my THXNET. API Token",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "L1 org": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "id_wallet_address_eth": "ID_WALLET_ADDRESS_ETH",
+                        "id_wallet_address_suri": "ID_WALLET_ADDRESS_SS58",
+                        "id_wallet_address_ss58": "ID_WALLET_ADDRESS_SS58",
+                        "is_l1_org": true,
+                        "thxnet_api_token_expired_at": "2024-01-15T01:58:37.742Z"
+                      },
+                      "error": null
+                    }
+                  },
+                  "End-user": {
+                    "value": {
+                      "status": "error",
+                      "result": {
+                        "id_wallet_address_eth": "ID_WALLET_ADDRESS_ETH",
+                        "id_wallet_address_suri": "ID_WALLET_ADDRESS_SS58",
+                        "id_wallet_address_ss58": "ID_WALLET_ADDRESS_SS58",
+                        "is_l1_org": false,
+                        "thxnet_api_token_expired_at": "2024-01-15T01:58:37.742Z",
+                        "delegated_by_l1_org": "L1_ORG_ID_WALLET_ADDRESS_SS58"
+                      },
+                      "error": "not_found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nfts/{token_id}": {
+      "get": {
+        "tags": [
+          "NFT"
+        ],
+        "operationId": "NftsGetByTokenId",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Get NFTs by Token ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TokenId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "nfts": [
+                          {
+                            "blockchain_network": "BLOCKCHAIN_NETWORK_ENUM_STRING",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "{token_id}",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "HOLDER_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/{bn_id}/{token_id}": {
+      "get": {
+        "tags": [
+          "NFT"
+        ],
+        "operationId": "NftGetByBlockchainNetworkAndTokenId",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Get NFT by blockchain network and Token ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          },
+          {
+            "$ref": "#/components/parameters/TokenId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "nft": {
+                          "blockchain_network": "{bn_id}",
+                          "collection_id": 123,
+                          "item_id": 456,
+                          "token_id": "{token_id}",
+                          "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                          "metadata": {
+                            "static": {
+                              "issuer": "ISSUER_NAME",
+                              "contents_provider": "CONTENTS_PROVIDER",
+                              "name": "NFT_NAME",
+                              "description": "NFT_DESCRIPTION",
+                              "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                              "link": "https://exmaples.com/",
+                              "serial_number": 1
+                            },
+                            "dynamic": {
+                              "custom_key": "custom_value",
+                              "category": "#id"
+                            }
+                          },
+                          "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "holder_id_wallet_address_ss58": "HOLDER_ID_WALLET_ADDRESS_SS58",
+                          "minted_at": "2024-01-15T01:58:37.742Z",
+                          "burned": false
+                        }
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; nft not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/search/v2": {
+      "post": {
+        "tags": [
+          "NFT"
+        ],
+        "operationId": "NftSearchV2",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "All query params are optional, now nested dynamic object can also be searched\n\nsupported logical operators:\n\n```\n\"$lt\"      ( number_field: {\"$lt\": number} )\n\"$lte\"     ( number_field: {\"$lte\": number} )\n\"$gt\"      ( number_field: {\"$gt\": number} )\n\"$gte\"     ( number_field: {\"$gte\": number} )\n\n\"$inclusiveBetween\" (number_field: {\"$inclusiveBetween\": [3, 6]})\n\"$exclusiveBetween\" (number_field: {\"$exclusiveBetween\": [1, 8]})\n\n\"$contains\"      (array_of_something_field: {\"$contains\": obj_or_value})\n\"$notContains\"\n\n\"$is\"        (anything_field: {\"$is\": anything})\n\"$isNot\"\n\n\"$isOneOf\"   (value_or_object_field: {\"$isOneOf\": [something, something]})\n\"$isNotOneOf\"\n\n\"$stringContains\" (string_field: {\"$stringContains\": \"<substring>\"})\n\"$stringNotContains\"\n```\n\n```javascript\n{\n  \"blockchain_network\": \"TESTNET_LEAFCHAIN_SAND\",\n  \"metadata\": {\n    \"static\": {\n      \"attributes\": {\n        \"$elementMatch\": {\n          \"trait_type\": \"timezone\"\n        }\n      }\n    }\n  }\n}\n```\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "example 1": {
+                  "value": {
+                    "blockchain_network": "TESTNET_LEAFCHAIN_SAND",
+                    "holder_id_wallet_address_ss58": "HOLDER_ID_WALLET_ADDRESS_SS58",
+                    "metadata": {
+                      "static": {
+                        "name": "NFT_TOKEN_NAME"
+                      }
+                    }
+                  }
+                },
+                "example 2": {
+                  "value": {
+                    "blockchain_network": "TESTNET_LEAFCHAIN_SAND",
+                    "metadata": {
+                      "dynamic": {
+                        "something": {
+                          "a_string_field": {
+                            "$stringContains": "sub string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "nfts": [
+                          {
+                            "blockchain_network": "BLOCKCHAIN_NETWORK_ENUM_STRING",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "HOLDER_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "BLOCKCHAIN_NETWORK_ENUM_STRING",
+                            "collection_id": 123,
+                            "item_id": 457,
+                            "token_id": "0xaa26300ff32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3ad",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "HOLDER_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/sale/search": {
+      "post": {
+        "tags": [
+          "NFT",
+          "NFT Sale"
+        ],
+        "operationId": "NftSaleSearch",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Search NFT Sale",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "purchased": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "sales": [
+                          {
+                            "sale_id": "NFT_SALE_ID",
+                            "name": "NFT_SALE_NAME",
+                            "description": "NFT_SALE_DESCRIPTION",
+                            "tags": [
+                              "tag1",
+                              "tag2"
+                            ],
+                            "blockchain_network": "BLOCKCHAIN_NETWORK_ENUM_STRING",
+                            "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                            "deleted": false,
+                            "purchased": false,
+                            "seller_id_wallet_address_ss58": "SELLER_ID_WALLET_ADDRESS_SS58",
+                            "created_at": "2024-01-15T01:58:37.742Z",
+                            "payable_by": "0",
+                            "human_price": 123
+                          },
+                          {
+                            "sale_id": "NFT_SALE_ID",
+                            "name": "NFT_SALE_NAME",
+                            "description": "NFT_SALE_DESCRIPTION",
+                            "tags": [
+                              "tag1",
+                              "tag2"
+                            ],
+                            "blockchain_network": "BLOCKCHAIN_NETWORK_ENUM_STRING",
+                            "token_id": "0xe251ea4d535127b397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415",
+                            "deleted": false,
+                            "purchased": false,
+                            "seller_id_wallet_address_ss58": "SELLER_ID_WALLET_ADDRESS_SS58",
+                            "created_at": "2024-01-15T01:58:37.742Z",
+                            "payable_by": "0",
+                            "human_price": 123
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/sale/purchase": {
+      "post": {
+        "tags": [
+          "NFT",
+          "NFT Sale"
+        ],
+        "operationId": "NftSalePurchase",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Purchase the NFT in a NFT Sale",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "sale_id": "NFT_SALE_ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60"
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; sale is not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/sale/create/{bn_id}": {
+      "post": {
+        "tags": [
+          "NFT",
+          "NFT Sale"
+        ],
+        "operationId": "NftSaleCreateOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Create NFT Sale on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "native": {
+                  "value": {
+                    "name": "NFT_SALE_NAME",
+                    "description": "NFT_SALE_DESCRIPTION",
+                    "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "payable_by_ft": {
+                      "native": true
+                    },
+                    "price_in_ft_human": 123
+                  }
+                },
+                "non_native": {
+                  "value": {
+                    "name": "NFT_SALE_NAME",
+                    "description": "NFT_SALE_DESCRIPTION",
+                    "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "payable_by_ft": {
+                      "native": false,
+                      "asset_id": 1
+                    },
+                    "price_in_ft_human": 123
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "native": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "sale": {
+                          "sale_id": "NFT_SALE_ID",
+                          "name": "NFT_SALE_NAME",
+                          "description": "NFT_SALE_DESCRIPTION",
+                          "tags": [
+                            "tag1",
+                            "tag2"
+                          ],
+                          "blockchain_network": "{bn_id}",
+                          "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                          "deleted": false,
+                          "purchased": false,
+                          "seller_id_wallet_address_ss58": "MY_ID_WALLET_ADDRESS_SS58",
+                          "created_at": "2024-01-15T01:58:37.742Z",
+                          "payable_by": "0",
+                          "human_price": 123
+                        }
+                      }
+                    }
+                  },
+                  "non_native": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "sale": {
+                          "sale_id": "NFT_SALE_ID",
+                          "name": "NFT_SALE_NAME",
+                          "description": "NFT_SALE_DESCRIPTION",
+                          "tags": [
+                            "tag1",
+                            "tag2"
+                          ],
+                          "blockchain_network": "{bn_id}",
+                          "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                          "deleted": false,
+                          "purchased": false,
+                          "seller_id_wallet_address_ss58": "MY_ID_WALLET_ADDRESS_SS58",
+                          "created_at": "2024-01-15T01:58:37.742Z",
+                          "payable_by": "1",
+                          "human_price": 123
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/sale/cancel/{bn_id}": {
+      "post": {
+        "tags": [
+          "NFT",
+          "NFT Sale"
+        ],
+        "operationId": "NftSaleCancelOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Cancel NFT Sale on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "sale_id": "NFT_SALE_ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "sale": {
+                          "sale_id": "NFT_SALE_ID",
+                          "name": "NFT_SALE_NAME",
+                          "description": "NFT_SALE_DESCRIPTION",
+                          "tags": [
+                            "tag1",
+                            "tag2"
+                          ],
+                          "blockchain_network": "{bn_id}",
+                          "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                          "deleted": true,
+                          "purchased": false,
+                          "seller_id_wallet_address_ss58": "MY_ID_WALLET_ADDRESS_SS58",
+                          "created_at": "2024-01-15T01:58:37.742Z",
+                          "payable_by": "0",
+                          "human_price": 123
+                        }
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; sale is not found"
+                    }
+                  },
+                  "permission_denied": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "permission_denied"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/claim/search": {
+      "post": {
+        "tags": [
+          "NFT",
+          "NFT Claim"
+        ],
+        "operationId": "NftClaimSearch",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Search NFT Claim",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "claimed": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "claims": [
+                          {
+                            "claim_id": "NFT_CLAIM_ID",
+                            "name": "NFT_CLAIM_NAME",
+                            "description": "NFT_CLAIM_DESCRIPTION",
+                            "tags": [
+                              "tag1",
+                              "tag2"
+                            ],
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                            "deleted": false,
+                            "claimed": false,
+                            "seller_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "created_at": "2024-01-15T01:58:37.742Z",
+                            "payable_by": "0",
+                            "human_price": 123
+                          },
+                          {
+                            "claim_id": "NFT_CLAIM_ID",
+                            "name": "NFT_CLAIM_NAME",
+                            "description": "NFT_CLAIM_DESCRIPTION",
+                            "tags": [
+                              "tag1",
+                              "tag2"
+                            ],
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "token_id": "0xe251ea4d535127b397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415",
+                            "deleted": false,
+                            "claimed": false,
+                            "seller_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "created_at": "2024-01-15T01:58:37.742Z",
+                            "payable_by": "0",
+                            "human_price": 123
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/claim/claim": {
+      "post": {
+        "tags": [
+          "NFT",
+          "NFT Claim"
+        ],
+        "operationId": "NftClaimClaim",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Claim the NFT in a NFT Claim",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "claim_id": "NFT_CLAIM_ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60"
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; claim is not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/bifrost/status": {
+      "post": {
+        "tags": [
+          "NFT",
+          "Bifrost"
+        ],
+        "operationId": "NftBifrostStatusGet",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Check Bifrost status",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ethereum_mainnet->thxnet": {
+                  "value": {
+                    "source_blockchain_network": "ethereum_mainnet",
+                    "nft_collection_address": "ERC1155_OPENSEA_NFT_COLLECTION_ADDRESS",
+                    "nft_token_id": "ERC1155_OPENSEA_NFT_TOKEN_ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ethereum_mainnet->thxnet captured": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "source_blockchain_network": {
+                          "captured": true
+                        },
+                        "thxnet_blockchain_network": {
+                          "processing": false,
+                          "nft_token_id_calculated": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN"
+                        }
+                      },
+                      "error": null
+                    }
+                  },
+                  "ethereum_mainnet->thxnet processing": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "source_blockchain_network": {
+                          "captured": true
+                        },
+                        "thxnet_blockchain_network": {
+                          "processing": true,
+                          "nft_token_id_calculated": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "tx_track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                          "tx_id": "0-0",
+                          "block_number": 0,
+                          "explorer_url": "",
+                          "panel_url": ""
+                        }
+                      },
+                      "error": null
+                    }
+                  },
+                  "ethereum_mainnet->thxnet done": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "source_blockchain_network": {
+                          "captured": true
+                        },
+                        "thxnet_blockchain_network": {
+                          "processing": true,
+                          "nft_token_id_calculated": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "tx_track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                          "tx_id": "1939411-2",
+                          "block_number": 1939411,
+                          "explorer_url": "https://explorer.testnet.thxnet.org/testnet-lmt/extrinsic/1939411-2",
+                          "panel_url": "https://panel.testnet.thxnet.org/?rpc=wss%3A%2F%2Fnode.lmt.testnet.thxnet.org%2Farchive-002%2Fws#/explorer/query/1939411"
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nft/bifrost/request": {
+      "post": {
+        "tags": [
+          "NFT",
+          "Bifrost"
+        ],
+        "operationId": "NftBifrostRequest",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Initiate a Bifrost process.  \n`receiver_id_wallet_address_eip191_signature_hash` can be generated via EIP191 signature process,  \nplease try MetaMask (with wallet `nft_original_holder_address`) and `Sign Message` at https://etherscan.io/verifiedSignatures# .  \nPlease put your own ID-Wallet Address (Ss58 format) into the `Message` field during EIP191 siging.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ethereum_mainnet->thxnet": {
+                  "value": {
+                    "source_blockchain_network": "ethereum_mainnet",
+                    "nft_collection_address": "ERC1155_OPENSEA_NFT_COLLECTION_ADDRESS",
+                    "nft_token_id": "ERC1155_OPENSEA_NFT_TOKEN_ID",
+                    "nft_original_holder_address": "HOLDER_PERSONAL_WALLET_ETH_ADDRESS",
+                    "receiver_id_wallet_address_eip191_signature_hash": "0xabbb258d0f7b154056ee62896084e3d2d04929880f4791cb251202646272127520c1a8bc0b2d5b424ccf76ff4a337abc1cbab085d0d5fbe69f5c805e656789be1b"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ethereum_mainnet->thxnet": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "bifrost_nft_trigger_address": "NFT_TRANSFER_RECIPIENT_ON_ETH_MAINNET",
+                        "expected_nft_sender_address": "HOLDER_PERSONAL_WALLET_ETH_ADDRESS",
+                        "requested_nft": {
+                          "source_blockchain_network": "ethereum_mainnet",
+                          "target_blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "external_nft_collection_address": "ERC1155_OPENSEA_NFT_COLLECTION_ADDRESS",
+                          "external_nft_token_id": "ERC1155_OPENSEA_NFT_TOKEN_ID",
+                          "calculated_nft_token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                          "nft_metadata": {
+                            "static": {
+                              "issuer": "ISSUER_NAME",
+                              "contents_provider": "CONTENTS_PROVIDER",
+                              "name": "NFT_NAME",
+                              "description": "NFT_DESCRIPTION",
+                              "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                              "link": "https://exmaples.com/",
+                              "serial_number": 1,
+                              "total_issued": 2,
+                              "animation_url": "https://exmaples.com/animation/play"
+                            },
+                            "dynamic": {
+                              "custom_key": "custom_value"
+                            }
+                          },
+                          "requested_at": "2024-01-17T01:58:37.728Z"
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/{bn_id}/nfts": {
+      "get": {
+        "tags": [
+          "Me",
+          "NFT"
+        ],
+        "operationId": "MeNFTsGetOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "My NFTs on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "nfts": [
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "HOLDER_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "collection_id": 123,
+                            "item_id": 457,
+                            "token_id": "0xaa26300ff32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3ad",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "HOLDER_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/{bn_id}/nft/transfer": {
+      "post": {
+        "tags": [
+          "Me",
+          "NFT"
+        ],
+        "operationId": "MeNFTTransferOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Transfer my NFT on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "nft": {
+                          "blockchain_network": "{bn_id}",
+                          "collection_id": 123,
+                          "item_id": 456,
+                          "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                          "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                          "metadata": {
+                            "static": {
+                              "issuer": "ISSUER_NAME",
+                              "contents_provider": "CONTENTS_PROVIDER",
+                              "name": "NFT_NAME",
+                              "description": "NFT_DESCRIPTION",
+                              "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                              "link": "https://exmaples.com/",
+                              "serial_number": 1
+                            },
+                            "dynamic": {
+                              "custom_key": "custom_value",
+                              "category": "#id"
+                            }
+                          },
+                          "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                          "minted_at": "2024-01-15T01:58:37.742Z",
+                          "burned": false
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/{bn_id}/fts": {
+      "get": {
+        "tags": [
+          "Me",
+          "FT"
+        ],
+        "operationId": "MeFTsGetOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "My FTs on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "native_ft_balance": 123.456,
+                        "non_native_ft_balances": [
+                          {
+                            "asset_id": 1,
+                            "symbol": "SYMBOL",
+                            "balance": 123
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/{bn_id}/ft/transfer": {
+      "post": {
+        "tags": [
+          "Me",
+          "FT"
+        ],
+        "operationId": "MeFTTransferOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Transfer my FT on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "native": {
+                  "value": {
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "transfer_value_human": 123,
+                    "native": true
+                  }
+                },
+                "non_native": {
+                  "value": {
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "transfer_value_human": 123,
+                    "native": false,
+                    "asset_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "transaction_preview": "ok",
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60"
+                      },
+                      "error": null
+                    }
+                  },
+                  "failed": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "transaction_preview": "failed"
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/thxnet_api_token/end_user/generate": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "THXNET. API Token"
+        ],
+        "operationId": "L1ThxnetApiTokenOfEndUserGenerate",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 generates end-users' THXNET. API Tokens, which are delegated by L1 Org",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "id_wallet_address_eth": "ID_WALLET_ADDRESS_ETH",
+                        "id_wallet_address_suri": "ID_WALLET_ADDRESS_SS58",
+                        "id_wallet_address_ss58": "ID_WALLET_ADDRESS_SS58",
+                        "email": "user@example.com",
+                        "thxnet_api_token_of_end_user": "THXNET_API_TOKEN_DELEGATED_BY_L1_ORG"
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/transfer": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "NFT"
+        ],
+        "operationId": "L1NftTransfer",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 transfers NFT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "token_id": "NFT_TOKEN_ID",
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx",
+                        "nft": {
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "collection_id": 123,
+                          "item_id": 456,
+                          "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                          "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                          "metadata": {
+                            "static": {
+                              "issuer": "ISSUER_NAME",
+                              "contents_provider": "CONTENTS_PROVIDER",
+                              "name": "NFT_NAME",
+                              "description": "NFT_DESCRIPTION",
+                              "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                              "link": "https://exmaples.com/",
+                              "serial_number": 1,
+                              "total_issued": 2,
+                              "animation_url": "https://exmaples.com/animation/play"
+                            },
+                            "dynamic": {
+                              "custom_key": "custom_value",
+                              "category": "#id"
+                            }
+                          },
+                          "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                          "minted_at": "2024-01-15T01:58:37.742Z",
+                          "burned": false
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/mint": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "NFT"
+        ],
+        "operationId": "L1NftMint",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 mints NFT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "metadata": {
+                      "static": {
+                        "issuer": "ISSUER_NAME",
+                        "contents_provider": "CONTENTS_PROVIDER",
+                        "name": "NFT_NAME",
+                        "description": "NFT_DESCRIPTION",
+                        "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                        "link": "https://exmaples.com/",
+                        "serial_number": 1
+                      },
+                      "dynamic": {
+                        "custom_key": "custom_value",
+                        "category": "#id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx",
+                        "nft": {
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "collection_id": 123,
+                          "item_id": 456,
+                          "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                          "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                          "metadata": {
+                            "static": {
+                              "issuer": "ISSUER_NAME",
+                              "contents_provider": "CONTENTS_PROVIDER",
+                              "name": "NFT_NAME",
+                              "description": "NFT_DESCRIPTION",
+                              "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                              "link": "https://exmaples.com/",
+                              "serial_number": 1
+                            },
+                            "dynamic": {
+                              "custom_key": "custom_value",
+                              "category": "#id"
+                            }
+                          },
+                          "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                          "minted_at": "2024-01-15T01:58:37.742Z",
+                          "burned": false
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/metadata/dynamic": {
+      "put": {
+        "tags": [
+          "L1 Org",
+          "NFT"
+        ],
+        "operationId": "L1NftDynamicMetadataUpdate",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 updates dynamic metadata of the NFT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "token_id": "NFT_TOKEN_ID",
+                    "dynamic_metadata": {
+                      "custom_key": "new_custom_value",
+                      "custom_key2": {
+                        "hello": "world",
+                        "some_numbers": [
+                          1,
+                          2,
+                          3
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                        "collection_id": 123,
+                        "item_id": 456,
+                        "token_id": "0x32844d4f3f35274d61f18b8d097c3d3adaa26300ffdd63a5bee3c95d74bdd36c",
+                        "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                        "metadata": {
+                          "static": {
+                            "issuer": "ISSUER_NAME",
+                            "contents_provider": "CONTENTS_PROVIDER",
+                            "name": "NFT_NAME",
+                            "description": "NFT_DESCRIPTION",
+                            "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                            "link": "https://exmaples.com/",
+                            "serial_number": 1,
+                            "total_issued": 2,
+                            "animation_url": "https://exmaples.com/animation/play"
+                          },
+                          "dynamic": {
+                            "category": "#id",
+                            "custom_key": "new_custom_value",
+                            "custom_key2": {
+                              "hello": "world",
+                              "some_numbers": [
+                                1,
+                                2,
+                                3
+                              ]
+                            }
+                          }
+                        },
+                        "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                        "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                        "minted_at": "2024-01-15T01:58:37.742Z",
+                        "burned": false
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/claim/delete": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "NFT",
+          "NFT Claim"
+        ],
+        "operationId": "L1NftClaimDelete",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 deletes NFT Claim",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "claim_id": "NFT_CLAIM_ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "claim": {
+                          "claim_id": "NFT_CLAIM_ID",
+                          "name": "NFT_CLAIM_NAME",
+                          "description": "NFT_CLAIM_DESCRIPTION",
+                          "tags": [
+                            "tag1",
+                            "tag2"
+                          ],
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                          "deleted": true,
+                          "claimed": false,
+                          "seller_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "created_at": "2024-01-15T01:58:37.742Z",
+                          "payable_by": "0",
+                          "human_price": 123
+                        }
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; claim is not found"
+                    }
+                  },
+                  "permission_denied": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "permission_denied"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/claim/create": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "NFT",
+          "NFT Claim"
+        ],
+        "operationId": "L1NftClaimCreate",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 creates NFT Claim",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "native": {
+                  "value": {
+                    "name": "NFT_CLAIM_NAME",
+                    "description": "NFT_CLAIM_DESCRIPTION",
+                    "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "payable_by_ft": {
+                      "native": true
+                    },
+                    "price_in_ft_human": 123
+                  }
+                },
+                "non_native": {
+                  "value": {
+                    "name": "NFT_CLAIM_NAME",
+                    "description": "NFT_CLAIM_DESCRIPTION",
+                    "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "payable_by_ft": {
+                      "native": false,
+                      "asset_id": 1
+                    },
+                    "price_in_ft_human": 123
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "native": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "claim": {
+                          "claim_id": "NFT_CLAIM_ID",
+                          "name": "NFT_CLAIM_NAME",
+                          "description": "NFT_CLAIM_DESCRIPTION",
+                          "tags": [
+                            "tag1",
+                            "tag2"
+                          ],
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                          "deleted": false,
+                          "claimed": false,
+                          "seller_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "created_at": "2024-01-15T01:58:37.742Z",
+                          "payable_by": "0",
+                          "human_price": 123
+                        }
+                      }
+                    }
+                  },
+                  "non_native": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "claim": {
+                          "claim_id": "NFT_CLAIM_ID",
+                          "name": "NFT_CLAIM_NAME",
+                          "description": "NFT_CLAIM_DESCRIPTION",
+                          "tags": [
+                            "tag1",
+                            "tag2"
+                          ],
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                          "deleted": false,
+                          "claimed": false,
+                          "seller_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "created_at": "2024-01-15T01:58:37.742Z",
+                          "payable_by": "1",
+                          "human_price": 123
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/claim/cancel": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "NFT",
+          "NFT Claim"
+        ],
+        "operationId": "L1NftClaimCancel",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 deletes NFT Claim (alias of `/l1/nft/claim/delete`)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "claim_id": "NFT_CLAIM_ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60",
+                        "claim": {
+                          "claim_id": "NFT_CLAIM_ID",
+                          "name": "NFT_CLAIM_NAME",
+                          "description": "NFT_CLAIM_DESCRIPTION",
+                          "tags": [
+                            "tag1",
+                            "tag2"
+                          ],
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                          "deleted": true,
+                          "claimed": false,
+                          "seller_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "created_at": "2024-01-15T01:58:37.742Z",
+                          "payable_by": "0",
+                          "human_price": 123
+                        }
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; claim is not found"
+                    }
+                  },
+                  "permission_denied": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "permission_denied"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/burn": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "NFT"
+        ],
+        "operationId": "L1NftBurn",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 burns NFT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "token_id": "NFT_TOKEN_ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-15T02:58:39.230Z:f6NjDMrek5to8Hfx",
+                        "nft": {
+                          "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "collection_id": 123,
+                          "item_id": 456,
+                          "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                          "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                          "metadata": {
+                            "static": {
+                              "issuer": "ISSUER_NAME",
+                              "contents_provider": "CONTENTS_PROVIDER",
+                              "name": "NFT_NAME",
+                              "description": "NFT_DESCRIPTION",
+                              "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                              "link": "https://exmaples.com/",
+                              "serial_number": 1,
+                              "total_issued": 2,
+                              "animation_url": "https://exmaples.com/animation/play"
+                            },
+                            "dynamic": {
+                              "custom_key": "custom_value",
+                              "category": "#id"
+                            }
+                          },
+                          "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                          "holder_id_wallet_address_ss58": "<burned>",
+                          "minted_at": "2024-01-15T01:58:37.742Z",
+                          "burned": true,
+                          "burned_at": "2024-01-15T02:58:39.230Z"
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/nft/bifrost/register/external_nft": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "NFT",
+          "Bifrost"
+        ],
+        "operationId": "L1NftBifrostExternalInfoRegister",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 registers external NFT info for Bifrost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ethereum_mainnet->thxnet": {
+                  "value": {
+                    "source_blockchain_network": "ethereum_mainnet",
+                    "nft_collection_address": "ERC1155_OPENSEA_NFT_COLLECTION_ADDRESS",
+                    "nft_token_id": "ERC1155_OPENSEA_NFT_TOKEN_ID",
+                    "metadata": {
+                      "static": {
+                        "issuer": "ISSUER_NAME",
+                        "contents_provider": "CONTENTS_PROVIDER",
+                        "name": "NFT_NAME",
+                        "description": "NFT_DESCRIPTION",
+                        "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                        "link": "https://exmaples.com/",
+                        "serial_number": 1,
+                        "total_issued": 2,
+                        "animation_url": "https://exmaples.com/animation/play"
+                      },
+                      "dynamic": {
+                        "custom_key": "custom_value"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ethereum_mainnet->thxnet": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "external_nft": {
+                          "source_blockchain_network": "ethereum_mainnet",
+                          "target_blockchain_network": "L1_OWNED_LEAFCHAIN",
+                          "external_nft_collection_address": "ERC1155_OPENSEA_NFT_COLLECTION_ADDRESS",
+                          "external_nft_token_id": "ERC1155_OPENSEA_NFT_TOKEN_ID",
+                          "calculated_nft_token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                          "nft_metadata": {
+                            "static": {
+                              "issuer": "ISSUER_NAME",
+                              "contents_provider": "CONTENTS_PROVIDER",
+                              "name": "NFT_NAME",
+                              "description": "NFT_DESCRIPTION",
+                              "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                              "link": "https://exmaples.com/",
+                              "serial_number": 1,
+                              "total_issued": 2,
+                              "animation_url": "https://exmaples.com/animation/play"
+                            },
+                            "dynamic": {
+                              "custom_key": "custom_value"
+                            }
+                          },
+                          "created_at": "2024-01-15T01:58:37.728Z"
+                        },
+                        "error": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/ft/transfer": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "FT"
+        ],
+        "operationId": "L1FtTransfer",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 transfers FT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "native": {
+                  "value": {
+                    "sender_id_wallet_address": "SENDER_ID_WALLET_ADDRESS_SS58",
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "transfer_value_human": 123,
+                    "native": true
+                  }
+                },
+                "non_native": {
+                  "value": {
+                    "sender_id_wallet_address": "SENDER_ID_WALLET_ADDRESS_SS58",
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "transfer_value_human": 123,
+                    "native": false,
+                    "asset_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "transaction_preview": "ok",
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60"
+                      },
+                      "error": null
+                    }
+                  },
+                  "failed": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "transaction_preview": "failed"
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/ft/mint": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "FT"
+        ],
+        "operationId": "L1FtMint",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 mints FT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "native": {
+                  "value": {
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "mint_value_human": 123,
+                    "native": true
+                  }
+                },
+                "non_native": {
+                  "value": {
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "mint_value_human": 123,
+                    "native": false,
+                    "asset_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "track_id": "2024-01-24T04:25:38.213Z:GEan5iVlUZ5SzD60"
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/batch/{batch_id}": {
+      "get": {
+        "tags": [
+          "L1 Org",
+          "Batch"
+        ],
+        "operationId": "L1BatchGetBatchStatus",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 gets batch info by Batch ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BatchId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "batch_id": "2024-01-15T01:54:11.800Z_0wSMhUBcIpcmbAli",
+                        "track_ids": [
+                          "2024-01-15T01:54:13.149Z:9ZVuD07TnhO3tU53",
+                          "2024-01-15T01:54:13.417Z:KltPL5k4ZHi8zzib",
+                          "2024-01-15T01:54:13.651Z:AHgIktVQllaT1FJy",
+                          "2024-01-15T01:54:13.869Z:o4NnvTatyibYqC3H"
+                        ]
+                      },
+                      "error": null
+                    }
+                  },
+                  "not_found": {
+                    "value": {
+                      "status": "error",
+                      "result": null,
+                      "error": "not_found ;; batch not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/batch/nft/transfer": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "Batch",
+          "NFT"
+        ],
+        "operationId": "L1BatchNftTransfer",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 transfers nfts in batch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "transfer_info": [
+                      {
+                        "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                        "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58_1",
+                        "custom_external_track_key": "my_track_key:1"
+                      },
+                      {
+                        "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                        "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58_2",
+                        "custom_external_track_key": "my_track_key:2"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "batch_id": "2024-01-15T01:58:38.732Z_QmBgYKngGEA7UqXf",
+                        "track_ids": [
+                          "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx"
+                        ],
+                        "nfts_in_db": [
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
+                            "token_uri": "0x5d31f35eccc18873eb25d0e80afc05098779b19344cb076947310e5eeb36aeb9",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play"
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58_1",
+                            "minted_at": "2024-01-15T01:58:37.728Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 457,
+                            "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play"
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58_2",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          }
+                        ],
+                        "custom_external_track_key_to_track_id": {
+                          "my_track_key:1": "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx",
+                          "my_track_key:2": "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx"
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/batch/nft/mint": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "Batch",
+          "NFT"
+        ],
+        "operationId": "L1BatchNftMint",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 mints nfts in batch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "nfts_info": [
+                      {
+                        "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58_1",
+                        "metadata": {
+                          "static": {
+                            "issuer": "ISSUER_NAME",
+                            "contents_provider": "CONTENTS_PROVIDER",
+                            "name": "NFT_NAME",
+                            "description": "NFT_DESCRIPTION",
+                            "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                            "link": "https://exmaples.com/",
+                            "serial_number": 1,
+                            "total_issued": 2,
+                            "animation_url": "https://exmaples.com/animation/play"
+                          },
+                          "dynamic": {
+                            "custom_key": "custom_value"
+                          }
+                        },
+                        "custom_external_track_key": "my_track_key:1"
+                      },
+                      {
+                        "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58_2",
+                        "metadata": {
+                          "static": {
+                            "issuer": "ISSUER_NAME",
+                            "contents_provider": "CONTENTS_PROVIDER",
+                            "name": "NFT_NAME",
+                            "description": "NFT_DESCRIPTION",
+                            "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                            "link": "https://exmaples.com/",
+                            "serial_number": 2,
+                            "total_issued": 2,
+                            "animation_url": "https://exmaples.com/animation/play"
+                          },
+                          "dynamic": {
+                            "custom_key": "custom_value"
+                          }
+                        },
+                        "custom_external_track_key": "my_track_key:2"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "batch_id": "2024-01-15T01:58:38.732Z_QmBgYKngGEA7UqXf",
+                        "track_ids": [
+                          "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx"
+                        ],
+                        "nfts_in_db": [
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "0xc9ec4ca483b5749b934ffc82d1083e61950710a3ca8fadb07f995907ddd83a5d",
+                            "token_uri": "0x5d31f35eccc18873eb25d0e80afc05098779b19344cb076947310e5eeb36aeb9",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play"
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58_1",
+                            "minted_at": "2024-01-15T01:58:37.728Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 457,
+                            "token_id": "0x41db7f8ee00723355d6f3544457d7ed64d6fcee2a8c60a39161903a7f8938716",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play"
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58_2",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          }
+                        ],
+                        "custom_external_track_key_to_track_id": {
+                          "my_track_key:1": "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx",
+                          "my_track_key:2": "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx"
+                        }
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/batch/nft/collection_v2/mint": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "Batch",
+          "NFT"
+        ],
+        "operationId": "L1BatchNftCollectionMintV2",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 mints nft collection in batch [v2],  \nif this is the first time minting nfts in `collection_custom_id`,  \nthe nft with `serial_number=0` will be the representative nft of this collection\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "template_nft_info": {
+                      "static": {
+                        "issuer": "ISSUER_NAME",
+                        "contents_provider": "CONTENTS_PROVIDER",
+                        "name": "NFT_NAME",
+                        "description": "NFT_DESCRIPTION",
+                        "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                        "link": "https://exmaples.com/",
+                        "serial_number": 1,
+                        "total_issued": 2,
+                        "animation_url": "https://exmaples.com/animation/play"
+                      },
+                      "dynamic": {
+                        "custom_key": "custom_value",
+                        "category": "#id"
+                      }
+                    },
+                    "collection_name": "COLLECTION_NAME",
+                    "collection_custom_id": "COLLECTION_CUSTOM_ID",
+                    "nft_minting_amount": 2,
+                    "receiver_id_wallet_addresses": [
+                      "RECEIVER_ID_WALLET_ADDRESS_SS58_1",
+                      "RECEIVER_ID_WALLET_ADDRESS_SS58_2"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "batch_id": "2024-01-15T01:58:38.732Z_QmBgYKngGEA7UqXf",
+                        "track_ids": [
+                          "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx"
+                        ],
+                        "nfts_in_db": [
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 455,
+                            "token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                            "token_uri": "0x5d31f35eccc18873eb25d0e80afc05098779b19344cb076947310e5eeb36aeb9",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 0,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play",
+                                "nft_collection": {
+                                  "name": "COLLECTION_NAME",
+                                  "custom_id": "COLLECTION_CUSTOM_ID",
+                                  "minted_at": "2024-01-15T01:58:37.728Z",
+                                  "token_id_prefix": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                                  "representative_token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                                  "this_batch_serial_numbers_range": "1-2"
+                                }
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id",
+                                "related_NFTs": [
+                                  "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000"
+                                ]
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.728Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000001",
+                            "token_uri": "0xeb36aeb95d31f35eccc18873eb25d0e80afc05098779b19344cb076947310e5e",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play",
+                                "nft_collection": {
+                                  "name": "COLLECTION_NAME",
+                                  "custom_id": "COLLECTION_CUSTOM_ID",
+                                  "minted_at": "2024-01-15T01:58:37.728Z",
+                                  "token_id_prefix": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                                  "representative_token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                                  "this_batch_serial_numbers_range": "1-2"
+                                }
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id",
+                                "related_NFTs": [
+                                  "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000"
+                                ]
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58_1",
+                            "minted_at": "2024-01-15T01:58:37.728Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 457,
+                            "token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000002",
+                            "token_uri": "0xe14e3d9b9ddb2ce948e2d7d875cbab3e960fe4ef4e02829fb5836ca3ba2e1081",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 2,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play",
+                                "nft_collection": {
+                                  "name": "COLLECTION_NAME",
+                                  "custom_id": "COLLECTION_CUSTOM_ID",
+                                  "minted_at": "2024-01-15T01:58:37.728Z",
+                                  "token_id_prefix": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                                  "representative_token_id": "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000",
+                                  "this_batch_serial_numbers_range": "1-2"
+                                }
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id",
+                                "related_NFTs": [
+                                  "0xc9ec4ca483b5749b934ffc82d1083e6100000000000000000000000000000000"
+                                ]
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58_2",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          }
+                        ],
+                        "collection_name": "COLLECTION_NAME",
+                        "collection_custom_id": "COLLECTION_CUSTOM_ID",
+                        "nft_minting_amount": 2
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/batch/nft/collection/mint": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "Batch",
+          "NFT"
+        ],
+        "operationId": "L1BatchNftCollectionMint",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 mints nft collection in batch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "ok": {
+                  "value": {
+                    "receiver_id_wallet_address": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                    "template_nft_info": {
+                      "static": {
+                        "issuer": "ISSUER_NAME",
+                        "contents_provider": "CONTENTS_PROVIDER",
+                        "name": "NFT_NAME",
+                        "description": "NFT_DESCRIPTION",
+                        "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                        "link": "https://exmaples.com/",
+                        "serial_number": 1,
+                        "total_issued": 2,
+                        "animation_url": "https://exmaples.com/animation/play"
+                      },
+                      "dynamic": {
+                        "custom_key": "custom_value",
+                        "category": "#id"
+                      }
+                    },
+                    "collection_name": "COLLECTION_NAME",
+                    "collection_custom_id": "COLLECTION_CUSTOM_ID",
+                    "nft_minting_amount": 2,
+                    "serial_number_starts_from": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "batch_id": "2024-01-15T01:58:38.732Z_QmBgYKngGEA7UqXf",
+                        "track_ids": [
+                          "2024-01-15T01:58:39.230Z:f6NjDMrek5to8Hfx"
+                        ],
+                        "nfts_in_db": [
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "0xc9ec4ca483b5749b934ffc82d1083e61950710a3ca8fadb07f995907ddd83a5d",
+                            "token_uri": "0x5d31f35eccc18873eb25d0e80afc05098779b19344cb076947310e5eeb36aeb9",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play",
+                                "nft_collection": {
+                                  "name": "COLLECTION_NAME",
+                                  "custom_id": "COLLECTION_CUSTOM_ID",
+                                  "minted_at": "2024-01-15T01:58:37.728Z"
+                                }
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.728Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "L1_OWNED_LEAFCHAIN",
+                            "collection_id": 123,
+                            "item_id": 457,
+                            "token_id": "0x41db7f8ee00723355d6f3544457d7ed64d6fcee2a8c60a39161903a7f8938716",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 2,
+                                "total_issued": 2,
+                                "animation_url": "https://exmaples.com/animation/play",
+                                "nft_collection": {
+                                  "name": "COLLECTION_NAME",
+                                  "custom_id": "COLLECTION_CUSTOM_ID",
+                                  "minted_at": "2024-01-15T01:58:37.728Z"
+                                }
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "RECEIVER_ID_WALLET_ADDRESS_SS58",
+                            "minted_at": "2024-01-15T01:58:37.728Z",
+                            "burned": false
+                          }
+                        ],
+                        "collection_name": "COLLECTION_NAME",
+                        "collection_custom_id": "COLLECTION_CUSTOM_ID",
+                        "nft_minting_amount": 2,
+                        "serial_number_starts_from": 1
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/l1/batch/id_wallet/create": {
+      "post": {
+        "tags": [
+          "L1 Org",
+          "Batch",
+          "ID-Wallet"
+        ],
+        "operationId": "L1BatchIdWalletsCreate",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "L1 creates ID-Wallets in batch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "wallets": [
+                          {
+                            "email": "user@example.com",
+                            "id_wallet_address_ss58": "59uSgBicxDnq5pnFGrZFHb2aJZKv5rwb4iBvhNM2nisEdwKT"
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/id_wallet/{id_wallet_address_ss58}/{bn_id}/nfts": {
+      "get": {
+        "tags": [
+          "ID-Wallet",
+          "NFT"
+        ],
+        "operationId": "IdWalletNFTsGetOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Get an ID-Wallet's NFTs on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdWalletAddressSs58"
+          },
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "nfts": [
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "collection_id": 123,
+                            "item_id": 456,
+                            "token_id": "0x32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3adaa26300ff",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "{id_wallet_address_ss58}",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          },
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "collection_id": 123,
+                            "item_id": 457,
+                            "token_id": "0xaa26300ff32844d4f3f35274d61f18b8ddd63a5bee3c95d74bdd36c097c3d3ad",
+                            "token_uri": "0xe960fe4ef4e02829fb5836ca3ba2e1081e14e3d9b9ddb2ce948e2d7d875cbab3",
+                            "metadata": {
+                              "static": {
+                                "issuer": "ISSUER_NAME",
+                                "contents_provider": "CONTENTS_PROVIDER",
+                                "name": "NFT_NAME",
+                                "description": "NFT_DESCRIPTION",
+                                "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+                                "link": "https://exmaples.com/",
+                                "serial_number": 1
+                              },
+                              "dynamic": {
+                                "custom_key": "custom_value",
+                                "category": "#id"
+                              }
+                            },
+                            "minter_id_wallet_address_ss58": "L1_ORG_ID_WALLET_ADDRESS_SS58",
+                            "holder_id_wallet_address_ss58": "{id_wallet_address_ss58}",
+                            "minted_at": "2024-01-15T01:58:37.742Z",
+                            "burned": false
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/id_wallet/{id_wallet_address_ss58}/{bn_id}/fts": {
+      "get": {
+        "tags": [
+          "ID-Wallet",
+          "FT"
+        ],
+        "operationId": "IdWalletFTsGetOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Get an ID-Wallet's FTs on a blockchain network",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdWalletAddressSs58"
+          },
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "native_ft_balance": 123.456,
+                        "non_native_ft_balances": [
+                          {
+                            "asset_id": 1,
+                            "symbol": "SYMBOL",
+                            "balance": 123
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/id_wallet/search/{bn_id}": {
+      "post": {
+        "tags": [
+          "ID-Wallet"
+        ],
+        "operationId": "IdWalletSearchOnBlockchainNetwork",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Search ID-Wallet",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BnId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "examples": {
+                "native_ft_condition_example_1": {
+                  "value": {
+                    "native_ft_condition": {
+                      "$eq": 10
+                    }
+                  }
+                },
+                "native_ft_condition_example_2": {
+                  "value": {
+                    "native_ft_condition": {
+                      "$gte": 10
+                    }
+                  }
+                },
+                "native_ft_condition_example_3": {
+                  "value": {
+                    "native_ft_condition": {
+                      "$gt": 10
+                    }
+                  }
+                },
+                "native_ft_condition_example_4": {
+                  "value": {
+                    "native_ft_condition": {
+                      "$lt": 10
+                    }
+                  }
+                },
+                "native_ft_condition_example_5": {
+                  "value": {
+                    "native_ft_condition": {
+                      "$lte": 10
+                    }
+                  }
+                },
+                "native_ft_condition_example_6": {
+                  "value": {
+                    "native_ft_condition": {
+                      "$inclusiveBetween": [
+                        1,
+                        10000
+                      ]
+                    }
+                  }
+                },
+                "non_native_ft_condition_example_1": {
+                  "value": {
+                    "asset_id": 1,
+                    "non_native_ft_condition": {
+                      "$eq": 10
+                    }
+                  }
+                },
+                "non_native_ft_condition_example_2": {
+                  "value": {
+                    "asset_id": 1,
+                    "non_native_ft_condition": {
+                      "$gte": 10
+                    }
+                  }
+                },
+                "non_native_ft_condition_example_3": {
+                  "value": {
+                    "asset_id": 1,
+                    "non_native_ft_condition": {
+                      "$gt": 10
+                    }
+                  }
+                },
+                "non_native_ft_condition_example_4": {
+                  "value": {
+                    "asset_id": 1,
+                    "non_native_ft_condition": {
+                      "$lt": 10
+                    }
+                  }
+                },
+                "non_native_ft_condition_example_5": {
+                  "value": {
+                    "asset_id": 1,
+                    "non_native_ft_condition": {
+                      "$lte": 10
+                    }
+                  }
+                },
+                "non_native_ft_condition_example_6": {
+                  "value": {
+                    "asset_id": 1,
+                    "non_native_ft_condition": {
+                      "$inclusiveBetween": [
+                        1,
+                        10000
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "native_ft": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "id_wallets": [
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "address_ss58": "ID_WALLET_ADDRESS_SS58",
+                            "native": {
+                              "balance": 10
+                            }
+                          },
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "address_ss58": "ID_WALLET_ADDRESS_SS58",
+                            "native": {
+                              "balance": 11
+                            }
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  },
+                  "non_native_ft": {
+                    "value": {
+                      "status": "ok",
+                      "result": {
+                        "id_wallets": [
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "address_ss58": "ID_WALLET_ADDRESS_SS58",
+                            "non_native": {
+                              "asset_id": 1,
+                              "balance": 10
+                            }
+                          },
+                          {
+                            "blockchain_network": "{bn_id}",
+                            "address_ss58": "ID_WALLET_ADDRESS_SS58",
+                            "non_native": {
+                              "asset_id": 1,
+                              "balance": 11
+                            }
+                          }
+                        ]
+                      },
+                      "error": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "TrackId": {
+        "name": "track_id",
+        "in": "path",
+        "required": true,
+        "description": "A string value of the Track ID",
+        "schema": {
+          "type": "string"
+        },
+        "example": "2024-01-15T01:58:39.322Z:Pmnu0CLi1juWyF3S"
+      },
+      "TokenId": {
+        "name": "token_id",
+        "in": "path",
+        "required": true,
+        "description": "A string value of the NFT's Token ID",
+        "schema": {
+          "type": "string"
+        },
+        "example": "0x464cd4a11eb27e7c86e1415e251ea4d535127b397c70e9afbd5369c9c04e9bed"
+      },
+      "IdWalletAddressSs58": {
+        "name": "id_wallet_address_ss58",
+        "in": "path",
+        "required": true,
+        "description": "A string value of ID Wallet Address (default Ss58 format)",
+        "schema": {
+          "type": "string"
+        },
+        "example": "5JfiXneR7L4MNMqBMES7bne8dhcRd1TUSBnCqxoW2K86RKsP"
+      },
+      "BnId": {
+        "name": "bn_id",
+        "in": "path",
+        "required": true,
+        "description": "A enum string to specify which blockchain network to be used in the http request",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "mainnet_rootchain",
+            "testnet_rootchain",
+            "mainnet_leafchain_thx",
+            "testnet_leafchain_thx",
+            "mainnet_leafchain_lmt",
+            "testnet_leafchain_lmt",
+            "testnet_leafchain_sand",
+            "testnet_leafchain_aether",
+            "testnet_leafchain_izutsuya"
+          ]
+        },
+        "example": "testnet_leafchain_sand"
+      },
+      "BatchId": {
+        "name": "batch_id",
+        "in": "path",
+        "required": true,
+        "description": "A string value of Batch ID",
+        "schema": {
+          "type": "string"
+        },
+        "example": "2024-01-15T01:54:11.800Z_0wSMhUBcIpcmbAli"
+      }
+    },
+    "schemas": {
+      "ApiResponse": {
+        "description": "Shape of THXNET. API JSON Response",
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "error"
+            ],
+            "description": "The status of the result of the http request."
+          },
+          "result": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "error": {
+            "type": "string",
+            "nullable": true,
+            "description": "Handled errors will start with following messages,  \nand optionally there is the detail appended to the error message after ` ;; ` delimiter:\n\n- `\"not_found\"`\n- `\"permission_denied\"`\n- `\"unauthorized\"`\n- `\"invalid_blockchain_network_id\"`\n- `\"thxnet_api_token_expired\"`\n- `\"invalid_thxnet_api_token\"`\n- `\"invalid_access_token\"`\n- `\"access_token_expired\"`\n- `\"unsupported_blockchain_network\"`\n- `\"invalid_value\"`\n- `\"missing_value\"`\n- `\"internal_error\"`\n- `\"validation_failed\"`\n- `\"too_fast\"`\n- `\"nft_status_not_satisfied\"`\n- `\"not_implemented\"`\n- `\"service_unavailable\"`\n\nFor example:\n  - `\"error\": \"permission_denied\"`\n  - `\"error\": \"permission_denied ;; not the owner of nft\"`"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
+}
