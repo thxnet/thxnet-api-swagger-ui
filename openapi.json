@@ -68,9 +68,7 @@
   "paths": {
     "/tx/track/{bn_id}/{track_id}": {
       "get": {
-        "tags": [
-          "Transaction"
-        ],
+        "tags": ["Transaction"],
         "operationId": "GetTxStatus",
         "security": [
           {
@@ -140,9 +138,7 @@
     },
     "/thxnet_api_token/refresh": {
       "get": {
-        "tags": [
-          "THXNET. API Token"
-        ],
+        "tags": ["THXNET. API Token"],
         "operationId": "ThxnetApiTokenInfoRefresh",
         "security": [
           {
@@ -175,9 +171,7 @@
     },
     "/thxnet_api_token/info": {
       "get": {
-        "tags": [
-          "THXNET. API Token"
-        ],
+        "tags": ["THXNET. API Token"],
         "operationId": "ThxnetApiTokenInfoGet",
         "security": [
           {
@@ -230,9 +224,7 @@
     },
     "/nfts/{token_id}": {
       "get": {
-        "tags": [
-          "NFT"
-        ],
+        "tags": ["NFT"],
         "operationId": "NftsGetByTokenId",
         "security": [
           {
@@ -299,9 +291,7 @@
     },
     "/nft/{bn_id}/{token_id}": {
       "get": {
-        "tags": [
-          "NFT"
-        ],
+        "tags": ["NFT"],
         "operationId": "NftGetByBlockchainNetworkAndTokenId",
         "security": [
           {
@@ -376,9 +366,7 @@
     },
     "/nft/search/v2": {
       "post": {
-        "tags": [
-          "NFT"
-        ],
+        "tags": ["NFT"],
         "operationId": "NftSearchV2",
         "security": [
           {
@@ -504,10 +492,7 @@
     },
     "/nft/sale/search": {
       "post": {
-        "tags": [
-          "NFT",
-          "NFT Sale"
-        ],
+        "tags": ["NFT", "NFT Sale"],
         "operationId": "NftSaleSearch",
         "security": [
           {
@@ -551,10 +536,7 @@
                             "sale_id": "NFT_SALE_ID",
                             "name": "NFT_SALE_NAME",
                             "description": "NFT_SALE_DESCRIPTION",
-                            "tags": [
-                              "tag1",
-                              "tag2"
-                            ],
+                            "tags": ["tag1", "tag2"],
                             "blockchain_network": "BLOCKCHAIN_NETWORK_ENUM_STRING",
                             "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                             "deleted": false,
@@ -568,10 +550,7 @@
                             "sale_id": "NFT_SALE_ID",
                             "name": "NFT_SALE_NAME",
                             "description": "NFT_SALE_DESCRIPTION",
-                            "tags": [
-                              "tag1",
-                              "tag2"
-                            ],
+                            "tags": ["tag1", "tag2"],
                             "blockchain_network": "BLOCKCHAIN_NETWORK_ENUM_STRING",
                             "token_id": "0xe251ea4d535127b397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415",
                             "deleted": false,
@@ -595,10 +574,7 @@
     },
     "/nft/sale/purchase": {
       "post": {
-        "tags": [
-          "NFT",
-          "NFT Sale"
-        ],
+        "tags": ["NFT", "NFT Sale"],
         "operationId": "NftSalePurchase",
         "security": [
           {
@@ -658,10 +634,7 @@
     },
     "/nft/sale/create/{bn_id}": {
       "post": {
-        "tags": [
-          "NFT",
-          "NFT Sale"
-        ],
+        "tags": ["NFT", "NFT Sale"],
         "operationId": "NftSaleCreateOnBlockchainNetwork",
         "security": [
           {
@@ -688,10 +661,7 @@
                     "name": "NFT_SALE_NAME",
                     "description": "NFT_SALE_DESCRIPTION",
                     "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
-                    "tags": [
-                      "tag1",
-                      "tag2"
-                    ],
+                    "tags": ["tag1", "tag2"],
                     "payable_by_ft": {
                       "native": true
                     },
@@ -703,10 +673,7 @@
                     "name": "NFT_SALE_NAME",
                     "description": "NFT_SALE_DESCRIPTION",
                     "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
-                    "tags": [
-                      "tag1",
-                      "tag2"
-                    ],
+                    "tags": ["tag1", "tag2"],
                     "payable_by_ft": {
                       "native": false,
                       "asset_id": 1
@@ -736,10 +703,7 @@
                           "sale_id": "NFT_SALE_ID",
                           "name": "NFT_SALE_NAME",
                           "description": "NFT_SALE_DESCRIPTION",
-                          "tags": [
-                            "tag1",
-                            "tag2"
-                          ],
+                          "tags": ["tag1", "tag2"],
                           "blockchain_network": "{bn_id}",
                           "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                           "deleted": false,
@@ -761,10 +725,7 @@
                           "sale_id": "NFT_SALE_ID",
                           "name": "NFT_SALE_NAME",
                           "description": "NFT_SALE_DESCRIPTION",
-                          "tags": [
-                            "tag1",
-                            "tag2"
-                          ],
+                          "tags": ["tag1", "tag2"],
                           "blockchain_network": "{bn_id}",
                           "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                           "deleted": false,
@@ -786,10 +747,7 @@
     },
     "/nft/sale/cancel/{bn_id}": {
       "post": {
-        "tags": [
-          "NFT",
-          "NFT Sale"
-        ],
+        "tags": ["NFT", "NFT Sale"],
         "operationId": "NftSaleCancelOnBlockchainNetwork",
         "security": [
           {
@@ -838,10 +796,7 @@
                           "sale_id": "NFT_SALE_ID",
                           "name": "NFT_SALE_NAME",
                           "description": "NFT_SALE_DESCRIPTION",
-                          "tags": [
-                            "tag1",
-                            "tag2"
-                          ],
+                          "tags": ["tag1", "tag2"],
                           "blockchain_network": "{bn_id}",
                           "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                           "deleted": true,
@@ -878,10 +833,7 @@
     },
     "/nft/claim/search": {
       "post": {
-        "tags": [
-          "NFT",
-          "NFT Claim"
-        ],
+        "tags": ["NFT", "NFT Claim"],
         "operationId": "NftClaimSearch",
         "security": [
           {
@@ -925,10 +877,7 @@
                             "claim_id": "NFT_CLAIM_ID",
                             "name": "NFT_CLAIM_NAME",
                             "description": "NFT_CLAIM_DESCRIPTION",
-                            "tags": [
-                              "tag1",
-                              "tag2"
-                            ],
+                            "tags": ["tag1", "tag2"],
                             "blockchain_network": "L1_OWNED_LEAFCHAIN",
                             "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                             "deleted": false,
@@ -942,10 +891,7 @@
                             "claim_id": "NFT_CLAIM_ID",
                             "name": "NFT_CLAIM_NAME",
                             "description": "NFT_CLAIM_DESCRIPTION",
-                            "tags": [
-                              "tag1",
-                              "tag2"
-                            ],
+                            "tags": ["tag1", "tag2"],
                             "blockchain_network": "L1_OWNED_LEAFCHAIN",
                             "token_id": "0xe251ea4d535127b397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415",
                             "deleted": false,
@@ -969,10 +915,7 @@
     },
     "/nft/claim/claim": {
       "post": {
-        "tags": [
-          "NFT",
-          "NFT Claim"
-        ],
+        "tags": ["NFT", "NFT Claim"],
         "operationId": "NftClaimClaim",
         "security": [
           {
@@ -1032,10 +975,7 @@
     },
     "/nft/bifrost/status": {
       "post": {
-        "tags": [
-          "NFT",
-          "Bifrost"
-        ],
+        "tags": ["NFT", "Bifrost"],
         "operationId": "NftBifrostStatusGet",
         "security": [
           {
@@ -1139,10 +1079,7 @@
     },
     "/nft/bifrost/request": {
       "post": {
-        "tags": [
-          "NFT",
-          "Bifrost"
-        ],
+        "tags": ["NFT", "Bifrost"],
         "operationId": "NftBifrostRequest",
         "security": [
           {
@@ -1224,10 +1161,7 @@
     },
     "/me/{bn_id}/nfts": {
       "get": {
-        "tags": [
-          "Me",
-          "NFT"
-        ],
+        "tags": ["Me", "NFT"],
         "operationId": "MeNFTsGetOnBlockchainNetwork",
         "security": [
           {
@@ -1320,10 +1254,7 @@
     },
     "/me/{bn_id}/nft/transfer": {
       "post": {
-        "tags": [
-          "Me",
-          "NFT"
-        ],
+        "tags": ["Me", "NFT"],
         "operationId": "MeNFTTransferOnBlockchainNetwork",
         "security": [
           {
@@ -1408,10 +1339,7 @@
     },
     "/me/{bn_id}/fts": {
       "get": {
-        "tags": [
-          "Me",
-          "FT"
-        ],
+        "tags": ["Me", "FT"],
         "operationId": "MeFTsGetOnBlockchainNetwork",
         "security": [
           {
@@ -1458,10 +1386,7 @@
     },
     "/me/{bn_id}/ft/transfer": {
       "post": {
-        "tags": [
-          "Me",
-          "FT"
-        ],
+        "tags": ["Me", "FT"],
         "operationId": "MeFTTransferOnBlockchainNetwork",
         "security": [
           {
@@ -1539,10 +1464,7 @@
     },
     "/l1/thxnet_api_token/end_user/generate": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "THXNET. API Token"
-        ],
+        "tags": ["L1 Org", "THXNET. API Token"],
         "operationId": "L1ThxnetApiTokenOfEndUserGenerate",
         "security": [
           {
@@ -1597,10 +1519,7 @@
     },
     "/l1/nft/transfer": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "NFT"],
         "operationId": "L1NftTransfer",
         "security": [
           {
@@ -1682,10 +1601,7 @@
     },
     "/l1/nft/mint": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "NFT"],
         "operationId": "L1NftMint",
         "security": [
           {
@@ -1779,10 +1695,7 @@
     },
     "/l1/nft/metadata/dynamic": {
       "put": {
-        "tags": [
-          "L1 Org",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "NFT"],
         "operationId": "L1NftDynamicMetadataUpdate",
         "security": [
           {
@@ -1806,11 +1719,7 @@
                       "custom_key": "new_custom_value",
                       "custom_key2": {
                         "hello": "world",
-                        "some_numbers": [
-                          1,
-                          2,
-                          3
-                        ]
+                        "some_numbers": [1, 2, 3]
                       }
                     }
                   }
@@ -1854,11 +1763,7 @@
                             "custom_key": "new_custom_value",
                             "custom_key2": {
                               "hello": "world",
-                              "some_numbers": [
-                                1,
-                                2,
-                                3
-                              ]
+                              "some_numbers": [1, 2, 3]
                             }
                           }
                         },
@@ -1879,11 +1784,7 @@
     },
     "/l1/nft/claim/delete": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "NFT",
-          "NFT Claim"
-        ],
+        "tags": ["L1 Org", "NFT", "NFT Claim"],
         "operationId": "L1NftClaimDelete",
         "security": [
           {
@@ -1927,10 +1828,7 @@
                           "claim_id": "NFT_CLAIM_ID",
                           "name": "NFT_CLAIM_NAME",
                           "description": "NFT_CLAIM_DESCRIPTION",
-                          "tags": [
-                            "tag1",
-                            "tag2"
-                          ],
+                          "tags": ["tag1", "tag2"],
                           "blockchain_network": "L1_OWNED_LEAFCHAIN",
                           "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                           "deleted": true,
@@ -1967,11 +1865,7 @@
     },
     "/l1/nft/claim/create": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "NFT",
-          "NFT Claim"
-        ],
+        "tags": ["L1 Org", "NFT", "NFT Claim"],
         "operationId": "L1NftClaimCreate",
         "security": [
           {
@@ -1993,10 +1887,7 @@
                     "name": "NFT_CLAIM_NAME",
                     "description": "NFT_CLAIM_DESCRIPTION",
                     "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
-                    "tags": [
-                      "tag1",
-                      "tag2"
-                    ],
+                    "tags": ["tag1", "tag2"],
                     "payable_by_ft": {
                       "native": true
                     },
@@ -2008,10 +1899,7 @@
                     "name": "NFT_CLAIM_NAME",
                     "description": "NFT_CLAIM_DESCRIPTION",
                     "nft_token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
-                    "tags": [
-                      "tag1",
-                      "tag2"
-                    ],
+                    "tags": ["tag1", "tag2"],
                     "payable_by_ft": {
                       "native": false,
                       "asset_id": 1
@@ -2041,10 +1929,7 @@
                           "claim_id": "NFT_CLAIM_ID",
                           "name": "NFT_CLAIM_NAME",
                           "description": "NFT_CLAIM_DESCRIPTION",
-                          "tags": [
-                            "tag1",
-                            "tag2"
-                          ],
+                          "tags": ["tag1", "tag2"],
                           "blockchain_network": "L1_OWNED_LEAFCHAIN",
                           "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                           "deleted": false,
@@ -2066,10 +1951,7 @@
                           "claim_id": "NFT_CLAIM_ID",
                           "name": "NFT_CLAIM_NAME",
                           "description": "NFT_CLAIM_DESCRIPTION",
-                          "tags": [
-                            "tag1",
-                            "tag2"
-                          ],
+                          "tags": ["tag1", "tag2"],
                           "blockchain_network": "L1_OWNED_LEAFCHAIN",
                           "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                           "deleted": false,
@@ -2091,11 +1973,7 @@
     },
     "/l1/nft/claim/cancel": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "NFT",
-          "NFT Claim"
-        ],
+        "tags": ["L1 Org", "NFT", "NFT Claim"],
         "operationId": "L1NftClaimCancel",
         "security": [
           {
@@ -2139,10 +2017,7 @@
                           "claim_id": "NFT_CLAIM_ID",
                           "name": "NFT_CLAIM_NAME",
                           "description": "NFT_CLAIM_DESCRIPTION",
-                          "tags": [
-                            "tag1",
-                            "tag2"
-                          ],
+                          "tags": ["tag1", "tag2"],
                           "blockchain_network": "L1_OWNED_LEAFCHAIN",
                           "token_id": "0x397c70e9afbd5369c9c04e9bed464cd4a11eb27e7c86e1415e251ea4d535127b",
                           "deleted": true,
@@ -2179,10 +2054,7 @@
     },
     "/l1/nft/burn": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "NFT"],
         "operationId": "L1NftBurn",
         "security": [
           {
@@ -2264,11 +2136,7 @@
     },
     "/l1/nft/bifrost/register/external_nft": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "NFT",
-          "Bifrost"
-        ],
+        "tags": ["L1 Org", "NFT", "Bifrost"],
         "operationId": "L1NftBifrostExternalInfoRegister",
         "security": [
           {
@@ -2362,10 +2230,7 @@
     },
     "/l1/ft/transfer": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "FT"
-        ],
+        "tags": ["L1 Org", "FT"],
         "operationId": "L1FtTransfer",
         "security": [
           {
@@ -2440,10 +2305,7 @@
     },
     "/l1/ft/mint": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "FT"
-        ],
+        "tags": ["L1 Org", "FT"],
         "operationId": "L1FtMint",
         "security": [
           {
@@ -2506,10 +2368,7 @@
     },
     "/l1/batch/{batch_id}": {
       "get": {
-        "tags": [
-          "L1 Org",
-          "Batch"
-        ],
+        "tags": ["L1 Org", "Batch"],
         "operationId": "L1BatchGetBatchStatus",
         "security": [
           {
@@ -2562,11 +2421,7 @@
     },
     "/l1/batch/nft/transfer": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "Batch",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "Batch", "NFT"],
         "operationId": "L1BatchNftTransfer",
         "security": [
           {
@@ -2693,11 +2548,7 @@
     },
     "/l1/batch/nft/mint": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "Batch",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "Batch", "NFT"],
         "operationId": "L1BatchNftMint",
         "security": [
           {
@@ -2854,11 +2705,7 @@
     },
     "/l1/batch/nft/collection_v2/mint": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "Batch",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "Batch", "NFT"],
         "operationId": "L1BatchNftCollectionMintV2",
         "security": [
           {
@@ -3059,11 +2906,7 @@
     },
     "/l1/batch/nft/collection/mint": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "Batch",
-          "NFT"
-        ],
+        "tags": ["L1 Org", "Batch", "NFT"],
         "operationId": "L1BatchNftCollectionMint",
         "security": [
           {
@@ -3212,11 +3055,7 @@
     },
     "/l1/batch/id_wallet/create": {
       "post": {
-        "tags": [
-          "L1 Org",
-          "Batch",
-          "ID-Wallet"
-        ],
+        "tags": ["L1 Org", "Batch", "ID-Wallet"],
         "operationId": "L1BatchIdWalletsCreate",
         "security": [
           {
@@ -3275,10 +3114,7 @@
     },
     "/id_wallet/{id_wallet_address_ss58}/{bn_id}/nfts": {
       "get": {
-        "tags": [
-          "ID-Wallet",
-          "NFT"
-        ],
+        "tags": ["ID-Wallet", "NFT"],
         "operationId": "IdWalletNFTsGetOnBlockchainNetwork",
         "security": [
           {
@@ -3374,10 +3210,7 @@
     },
     "/id_wallet/{id_wallet_address_ss58}/{bn_id}/fts": {
       "get": {
-        "tags": [
-          "ID-Wallet",
-          "FT"
-        ],
+        "tags": ["ID-Wallet", "FT"],
         "operationId": "IdWalletFTsGetOnBlockchainNetwork",
         "security": [
           {
@@ -3427,9 +3260,7 @@
     },
     "/id_wallet/search/{bn_id}": {
       "post": {
-        "tags": [
-          "ID-Wallet"
-        ],
+        "tags": ["ID-Wallet"],
         "operationId": "IdWalletSearchOnBlockchainNetwork",
         "security": [
           {
@@ -3489,10 +3320,7 @@
                 "native_ft_condition_example_6": {
                   "value": {
                     "native_ft_condition": {
-                      "$inclusiveBetween": [
-                        1,
-                        10000
-                      ]
+                      "$inclusiveBetween": [1, 10000]
                     }
                   }
                 },
@@ -3540,10 +3368,7 @@
                   "value": {
                     "asset_id": 1,
                     "non_native_ft_condition": {
-                      "$inclusiveBetween": [
-                        1,
-                        10000
-                      ]
+                      "$inclusiveBetween": [1, 10000]
                     }
                   }
                 }
@@ -3666,7 +3491,8 @@
             "testnet_leafchain_lmt",
             "testnet_leafchain_sand",
             "testnet_leafchain_aether",
-            "testnet_leafchain_izutsuya"
+            "testnet_leafchain_izutsuya",
+            "mainnet_leafchain_activa"
           ]
         },
         "example": "testnet_leafchain_sand"
@@ -3689,10 +3515,7 @@
         "properties": {
           "status": {
             "type": "string",
-            "enum": [
-              "ok",
-              "error"
-            ],
+            "enum": ["ok", "error"],
             "description": "The status of the result of the http request."
           },
           "result": {
